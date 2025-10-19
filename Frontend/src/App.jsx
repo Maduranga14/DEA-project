@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import HeroSection from './components/layout/HeroSection'
 import GlassNavbar from './components/common/GlassNavbar'
 import './App.css'
+import JobList from './components/jobs/JobList';
 
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ function App() {
             
             <Routes>
               <Route path="/" element={<HeroSection />} />
+              <Route path="/jobs" element={<JobList/>}/>
               
               
               
