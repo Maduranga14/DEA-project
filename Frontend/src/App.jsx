@@ -7,6 +7,7 @@ import GlassNavbar from './components/common/GlassNavbar'
 import './App.css'
 import JobList from './components/jobs/JobList';
 import Register from './components/auth/Register';
+import Login from './components/auth/Login';
 
 
 const queryClient = new QueryClient();
@@ -42,7 +43,7 @@ function App() {
               <Route path="/" element={<HeroSection />} />
               <Route path="/jobs" element={<JobList/>}/>
               <Route path="/Register" element={<Register />} />
-              
+              <Route path="/login" element={<Login />} />
               
               
             </Routes>
