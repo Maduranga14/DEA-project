@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-//import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { 
   Mail, 
   Lock, 
@@ -43,7 +43,7 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const [selectedSkills, setSelectedSkills] = useState([]);
 
-    //const { register } = useAuth();
+    const { register } = useAuth();
     const navigate = useNavigate();
 
     const skillsList = [

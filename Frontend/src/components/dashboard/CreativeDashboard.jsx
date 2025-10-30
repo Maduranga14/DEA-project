@@ -19,8 +19,8 @@ import {
   XCircle,
   Search
 } from 'lucide-react';
-//import { useAuth } from '../../contexts/AuthContext';
-//import { jobService } from '../../services/jobService';
+import { useAuth } from '../../contexts/AuthContext';
+import { jobService } from '../../services/jobService';
 import { sampleJobs } from '../../data/sampleData';
 import toast from 'react-hot-toast';
 

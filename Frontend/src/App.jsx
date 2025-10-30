@@ -10,6 +10,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import CreativeDashboard from './components/dashboard/CreativeDashboard';
+import { AuthProvider } from './contexts/AuthContext';
 
 
 const queryClient = new QueryClient();
@@ -19,7 +20,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      
+      <AuthProvider>
         <Router>
           <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/30">
             <GlassNavbar />
@@ -55,7 +56,7 @@ function App() {
             </Routes>
           </div>
         </Router>
-      
+      </AuthProvider>
     </QueryClientProvider>
   )
 }
