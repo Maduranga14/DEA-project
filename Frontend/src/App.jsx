@@ -8,6 +8,8 @@ import './App.css'
 import JobList from './components/jobs/JobList';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import ProtectedRoute from './components/common/ProtectedRoute';
+import CreativeDashboard from './components/dashboard/CreativeDashboard';
 
 
 const queryClient = new QueryClient();
@@ -44,8 +46,12 @@ function App() {
               <Route path="/jobs" element={<JobList/>}/>
               <Route path="/Register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              
-              
+              <Route path='/dashboard' element={
+                <ProtectedRoute>
+                  <CreativeDashboard />
+                </ProtectedRoute>
+                }
+              />
             </Routes>
           </div>
         </Router>
