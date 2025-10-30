@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Bell, User, MessageCircle, Plus, Menu, X, LogOut } from 'lucide-react';
-
+import { useAuth } from '../../contexts/AuthContext';
 
 const GlassNavbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    //const { user, logout, isAuthenticated } = useAuth();
-    const user = null;
-    const logout = () => {};
-    const isAuthenticated = false;
-    const location = useLocation();
+    const { user, logout, isAuthenticated } = useAuth();
+    
 
     useEffect(() => {
         const handleScroll = () => {

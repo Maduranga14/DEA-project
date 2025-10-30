@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Grid, List, Plus } from 'lucide-react';
-//import { jobService } from '../../services/jobService';
+import { jobService } from '../../services/jobService';
 import { sampleJobs } from '../../data/sampleData';
 import CreativeJobCard from './CreativeJobCard';
 //import InteractiveFilters from './InteractiveFilters';
-//import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-//remove below 3 lines later
-const useAuth = () => ({
-  user: { role: 'CLIENT', name: 'Demo User' } // mock user
-});
+
+
 
 const JobList = () => {
     const [jobs, setJobs] = useState([]);
