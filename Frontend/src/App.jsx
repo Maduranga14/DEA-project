@@ -11,6 +11,7 @@ import Login from './components/auth/Login';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import CreativeDashboard from './components/dashboard/CreativeDashboard';
 import { AuthProvider } from './contexts/AuthContext';
+import JobPost from './components/jobs/JobPost';
 
 
 const queryClient = new QueryClient();
@@ -53,6 +54,16 @@ function App() {
                 </ProtectedRoute>
                 }
               />
+              <Route 
+              path="/post-job"
+              element={
+                <div className="min-h-screen pt-20 px-4">
+                  <div className="max-w-4xl mx-auto">
+                    <h1 className="text-4ml font-bold text-gray-900 mb-8">Post a job-Test </h1>
+                    <JobPost/>
+                  </div>
+                </div>
+              }/>
             </Routes>
           </div>
         </Router>
