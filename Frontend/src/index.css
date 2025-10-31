@@ -6,7 +6,7 @@
   html {
     font-family: 'Inter', system-ui, sans-serif;
   }
-
+  
   body {
     @apply antialiased;
   }
@@ -21,6 +21,7 @@
   }
 }
 
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
