@@ -117,7 +117,8 @@ const GlassNavbar = () => {
                                     isScrolled ? 'text-gray-600' : 'text-white'
                                 }`} />
                             </motion.button>
-
+                             
+                        <Link to="/post-job">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
@@ -126,6 +127,7 @@ const GlassNavbar = () => {
                                 <Plus className="w-4 h-4" />
                                 <span>Post Job</span>
                             </motion.button>
+                        </Link>
 
                             <div className="relative group">
                                 <motion.button
