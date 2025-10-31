@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { authService } from '../services/authService';
+import { authService } from '../services/AuthService';
 
 const AuthContext = createContext();
 
@@ -43,9 +43,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (userData, role) => {
+  const register = async (userData) => {
     try {
-      const response = await authService.register(userData, role);
+      const response = await authService.register(userData);
       return { success: true, data: response.data };
     } catch (error) {
       return { 
