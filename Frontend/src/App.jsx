@@ -57,12 +57,14 @@ function App() {
               <Route 
               path="/post-job"
               element={
+                <ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']}>
                 <div className="min-h-screen pt-20 px-4">
                   <div className="max-w-4xl mx-auto">
-                    <h1 className="text-4ml font-bold text-gray-900 mb-8">Post a job-Test </h1>
+                    <h1 className="text-4xl font-bold text-gray-900 mb-8">Post a Job</h1>
                     <JobPost/>
                   </div>
                 </div>
+                </ProtectedRoute>
               }/>
             </Routes>
           </div>

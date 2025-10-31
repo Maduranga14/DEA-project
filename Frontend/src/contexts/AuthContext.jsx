@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { authService } from '../services/authService';
+import { authService } from '../services/AuthService';
 
 const AuthContext = createContext();
 
@@ -10,9 +10,27 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userRole = localStorage.getItem('userRole');
-    const userData = localStorage.getItem('userData');
+   
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+    let token, userRole, userData;
+    
+    if (rememberMe) {
+      token = localStorage.getItem('token');
+      userRole = localStorage.getItem('userRole');
+      userData = localStorage.getItem('userData');
+      
+      
+      if (token && userRole && userData) {
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('userRole', userRole);
+        sessionStorage.setItem('userData', userData);
+      }
+    } else {
+      
+      token = sessionStorage.getItem('token');
+      userRole = sessionStorage.getItem('userRole');
+      userData = sessionStorage.getItem('userData');
+    }
     
     if (token && userRole && userData) {
       setUser({ 
@@ -22,16 +40,55 @@ export const AuthProvider = ({ children }) => {
       });
     }
     setLoading(false);
+
+    
+    const handleBeforeUnload = () => {
+      
+    };
+
+    const handleVisibilityChange = () => {
+      
+      if (document.hidden) {
+        
+      }
+    };
+
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email, password, rememberMe = false) => {
     try {
       const response = await authService.login(email, password);
       if (response.data) {
         const { token, role, ...userData } = response.data;
-        localStorage.setItem('token', token);
-        localStorage.setItem('userRole', role);
-        localStorage.setItem('userData', JSON.stringify(userData));
+        
+        
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('userRole', role);
+        sessionStorage.setItem('userData', JSON.stringify(userData));
+        
+        
+        if (rememberMe) {
+          localStorage.setItem('token', token);
+          localStorage.setItem('userRole', role);
+          localStorage.setItem('userData', JSON.stringify(userData));
+          localStorage.setItem('rememberMe', 'true');
+        } else {
+          
+          localStorage.removeItem('token');
+          localStorage.removeItem('userRole');
+          localStorage.removeItem('userData');
+          localStorage.removeItem('rememberMe');
+        }
+        
         setUser({ role, ...userData, token });
         return { success: true };
       }
@@ -43,9 +100,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (userData, role) => {
+  const register = async (userData) => {
     try {
-      const response = await authService.register(userData, role);
+      const response = await authService.register(userData);
       return { success: true, data: response.data };
     } catch (error) {
       return { 
@@ -56,9 +113,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userData');
+    
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userRole');
+    sessionStorage.removeItem('userData');
     setUser(null);
   };
 

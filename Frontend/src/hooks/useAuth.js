@@ -129,7 +129,7 @@ export const useProtected = () => {
 };
 
 /**
- * Hook to manage authentication state with local storage sync
+  * Hook to manage authentication state with session/local storage sync
  * @returns {Object} Enhanced auth methods
  */
 export const useAuthStorage = () => {
@@ -139,8 +139,20 @@ export const useAuthStorage = () => {
     const result = await login(email, password);
     
     if (result.success && rememberMe) {
+
+      const token = sessionStorage.getItem('token');
+      const userRole = sessionStorage.getItem('userRole');
+      const userData = sessionStorage.getItem('userData');
+      
+      localStorage.setItem('token', token);
+      localStorage.setItem('userRole', userRole);
+      localStorage.setItem('userData', userData);
       localStorage.setItem('rememberMe', 'true');
     } else {
+
+      localStorage.removeItem('token');
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('userData');
       localStorage.removeItem('rememberMe');
     }
     
@@ -148,27 +160,43 @@ export const useAuthStorage = () => {
   };
   
   const logoutWithCleanup = () => {
-    // Clear any stored data
+    
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userData');
     localStorage.removeItem('rememberMe');
     sessionStorage.removeItem('postLoginAction');
     
-    // Perform logout
+    
     logout();
   };
   
   const getStoredAuthData = () => {
     if (typeof window === 'undefined') return null;
     
-    const token = localStorage.getItem('token');
-    const userRole = localStorage.getItem('userRole');
-    const userData = localStorage.getItem('userData');
-    const rememberMe = localStorage.getItem('rememberMe');
+
+    const persistentToken = localStorage.getItem('token');
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+    
+    if (persistentToken && rememberMe) {
+      return {
+        token: persistentToken,
+        userRole: localStorage.getItem('userRole'),
+        userData: localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')) : null,
+        rememberMe: true
+      };
+    }
+
+
+    const sessionToken = sessionStorage.getItem('token');
+    const userRole = sessionStorage.getItem('userRole');
+    const userData = sessionStorage.getItem('userData');
     
     return {
-      token,
+      token: sessionToken,
       userRole,
       userData: userData ? JSON.parse(userData) : null,
-      rememberMe: rememberMe === 'true'
+      rememberMe: false
     };
   };
   

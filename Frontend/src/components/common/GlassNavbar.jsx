@@ -117,7 +117,8 @@ const GlassNavbar = () => {
                                     isScrolled ? 'text-gray-600' : 'text-white'
                                 }`} />
                             </motion.button>
-                             
+
+                    {(user?.role === 'CLIENT' || user?.role === 'ADMIN') && (         
                         <Link to="/post-job">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
@@ -128,34 +129,72 @@ const GlassNavbar = () => {
                                 <span>Post Job</span>
                             </motion.button>
                         </Link>
+                    )}
 
                             <div className="relative group">
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className={`p-2 rounded-xl transition-colors ${
-                                    isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white/20'
+                                    className={`flex items-center space-x-2 px-3 py-2 rounded-xl transition-all duration-200 ${
+                                        isScrolled 
+                                            ? 'hover:bg-gray-100 border border-gray-200' 
+                                            : 'hover:bg-white/20 border border-white/30'
                                     }`}
                                 >
-                                    <User className={`w-5 h-5 ${
-                                        isScrolled ? 'text-gray-600' : 'text-white'
-                                    }`} />
+                                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                        {user?.firstName?.charAt(0)?.toUpperCase()}{user?.lastName?.charAt(0)?.toUpperCase()}
+                                    </div>
+                                    <div className={`hidden sm:block text-sm font-medium ${
+                                        isScrolled ? 'text-gray-700' : 'text-white'
+                                    }`}>
+                                        {user?.firstName}
+                                    </div>
+                                    <svg 
+                                        className={`w-4 h-4 transition-transform group-hover:rotate-180 ${
+                                            isScrolled ? 'text-gray-400' : 'text-white/70'
+                                        }`} 
+                                        fill="none" 
+                                        stroke="currentColor" 
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
                                 </motion.button>
                             
-                            
-                                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                                    <div className="p-2">
-                                        <div className="px-3 py-2 text-sm text-gray-700 border-b border-gray-100">
-                                            {user?.firstName} {user?.lastName}
+                                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                                    <div className="p-3">
+                                        <div className="flex items-center space-x-3 px-3 py-3 border-b border-gray-100">
+                                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                                                {user?.firstName?.charAt(0)?.toUpperCase()}{user?.lastName?.charAt(0)?.toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div className="font-medium text-gray-900">
+                                                    {user?.firstName} {user?.lastName}
+                                                </div>
+                                                <div className="text-xs text-gray-500 capitalize">
+                                                    {user?.role?.toLowerCase()}
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <div className="py-2">
+                                            <Link 
+                                                to="/dashboard" 
+                                                className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
+                                            >
+                                                <User className="w-4 h-4" />
+                                                <span>Dashboard</span>
+                                            </Link>
+
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg flex items-center space-x-2"
+                                            className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg flex items-center space-x-2 transition-colors"
                                         >
                                             <LogOut className="w-4 h-4" />
                                             <span>Sign Out</span>
                                         </button>
                                     </div>
+                                  </div>  
                                 </div>
                             </div>
                         </>
@@ -231,9 +270,13 @@ const GlassNavbar = () => {
                         <div className="pt-4 border-t border-gray-200 space-y-3">
                             {isAuthenticated ? (
                                 <>
-                                    <motion.button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold">
-                                        Post a Job
-                                    </motion.button>
+                                {(user?.role === 'CLIENT' || user?.role === 'ADMIN') && (
+                                        <Link to="/post-job" onClick={() => setIsMobileMenuOpen(false)}>
+                                            <motion.button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold">
+                                                Post a Job
+                                            </motion.button>
+                                        </Link>
+                                )}
                                     <motion.button
                                     onClick={handleLogout}
                                     className="w-full border border-gray-300 py-3 rounded-xl font-medium text-red-600"

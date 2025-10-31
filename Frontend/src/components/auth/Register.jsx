@@ -20,6 +20,7 @@ const Register = () => {
     const [step, setStep] = useState(1);
     const [userType, setUserType] = useState('freelancer');
     const [formData, setFormData] = useState({
+        username: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -125,7 +126,7 @@ const Register = () => {
     const handleNext = () => {
         // Validation for step 1
         if (step === 1) {
-            if (!formData.email || !formData.password || !formData.confirmPassword) {
+            if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
                 toast.error('Please fill in all required fields');
                 return;
             }
@@ -176,10 +177,12 @@ const Register = () => {
         setLoading(true);
 
         const registrationData = {
+            username: formData.username,
             email: formData.email,
             password: formData.password,
             firstName: formData.firstName,
             lastName: formData.lastName,
+            userType: userType,
             ...(userType === 'freelancer' && {
                 title: formData.title,
                 bio: formData.bio,
@@ -325,6 +328,20 @@ const Register = () => {
                                             </div>
 
                                             <div className="space-y-6">
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                                                        Username*
+                                                    </label>
+                                                    <div className="relative">
+                                                        <User className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5' />
+                                                        <input type="text"
+                                                        required
+                                                        value={formData.username}
+                                                        onChange={(e) => setFormData({... formData,username:e.target.value})} className='w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-lg'
+                                                        placeholder='Choose a username' />
+                                                    </div>
+                                                </div>
+
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-3">
                                                         Email Address*
