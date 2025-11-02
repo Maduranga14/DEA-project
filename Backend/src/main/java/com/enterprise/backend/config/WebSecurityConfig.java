@@ -65,10 +65,10 @@ public class WebSecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/jobs", "/jobs/**").permitAll() // Allow public read access to jobs
+                        .requestMatchers(HttpMethod.GET, "/jobs", "/jobs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/jobs/paginated", "/jobs/search").permitAll()
                         .anyRequest().authenticated()
                 );
-
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
