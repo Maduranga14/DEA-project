@@ -18,20 +18,22 @@ public class JobApplicationResponse {
     private String clientFeedback;
     private String portfolioLinks;
 
-    // Freelancer information
+
     private Long freelancerId;
     private String freelancerName;
     private String freelancerEmail;
 
-    // Job information
+
     private String clientName;
     private BigDecimal jobBudget;
     private String jobType;
+    private String jobDescription;
+    private LocalDateTime jobCreatedAt;
 
-    // Constructors
+
     public JobApplicationResponse() {}
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -166,5 +168,21 @@ public class JobApplicationResponse {
 
     public void setJobType(String jobType) {
         this.jobType = jobType;
+    }
+
+    public String getJobDescription() {
+        return jobDescription;
+    }
+
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
+    }
+
+    public LocalDateTime getJobCreatedAt() {
+        return jobCreatedAt;
+    }
+
+    public void setJobCreatedAt(LocalDateTime jobCreatedAt) {
+        this.jobCreatedAt = jobCreatedAt;
     }
 }

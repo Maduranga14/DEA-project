@@ -19,7 +19,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Create a default admin user if no users exist
+
         if (userRepository.count() == 0) {
             User adminUser = new User();
             adminUser.setUsername("admin");
@@ -28,12 +28,8 @@ public class DataInitializer implements CommandLineRunner {
             adminUser.setFirstName("Admin");
             adminUser.setLastName("User");
             adminUser.setRole(Role.ADMIN);
-
             userRepository.save(adminUser);
             System.out.println("Created default admin user: admin@example.com / admin123");
-
-
-
 
         }
     }

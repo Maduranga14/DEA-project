@@ -35,35 +35,35 @@ public class JobApplicationService {
     private UserRepository userRepository;
 
     public JobApplicationResponse applyForJob(JobApplicationRequest request) {
-        // Get current authenticated user
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
 
-        // Verify user is a freelancer
+
         if (!currentUser.getRole().equals(Role.FREELANCER) && !currentUser.getRole().equals(Role.ADMIN)) {
             throw new RuntimeException("Only freelancers can apply for jobs");
         }
 
-        // Get the job
+
         Job job = jobRepository.findById(request.getJobId())
                 .orElseThrow(() -> new RuntimeException("Job not found"));
 
-        // Check if job is still open
+
         if (!job.getStatus().equals(JobStatus.OPEN)) {
             throw new RuntimeException("This job is no longer accepting applications");
         }
 
-        // Check if freelancer already applied
+
         if (jobApplicationRepository.existsByJobAndFreelancer(job, currentUser)) {
             throw new RuntimeException("You have already applied for this job");
         }
 
-        // Check if freelancer is trying to apply to their own job (if they're also a client)
+
         if (job.getClient().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You cannot apply to your own job");
         }
 
-        // Create new application
+
         JobApplication application = new JobApplication();
         application.setJob(job);
         application.setFreelancer(currentUser);
@@ -93,7 +93,7 @@ public class JobApplicationService {
         Job job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
 
-        // Verify user owns this job or is admin
+
         if (!job.getClient().getId().equals(currentUser.getId()) &&
                 !currentUser.getRole().equals(Role.ADMIN)) {
             throw new RuntimeException("You can only view applications for your own jobs");
@@ -122,7 +122,7 @@ public class JobApplicationService {
         JobApplication application = jobApplicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("Application not found"));
 
-        // Verify user owns the job or is admin
+
         if (!application.getJob().getClient().getId().equals(currentUser.getId()) &&
                 !currentUser.getRole().equals(Role.ADMIN)) {
             throw new RuntimeException("You can only update applications for your own jobs");
@@ -133,14 +133,14 @@ public class JobApplicationService {
             application.setClientFeedback(feedback);
         }
 
-        // If accepting the application, assign freelancer to job and close other applications
+
         if (status == ApplicationStatus.ACCEPTED) {
             Job job = application.getJob();
             job.setFreelancer(application.getFreelancer());
             job.setStatus(JobStatus.IN_PROGRESS);
             jobRepository.save(job);
 
-            // Reject other pending applications for this job
+
             List<JobApplication> otherApplications = jobApplicationRepository
                     .findByJobAndStatusOrderByAppliedAtDesc(job, ApplicationStatus.PENDING);
 
@@ -164,13 +164,13 @@ public class JobApplicationService {
         JobApplication application = jobApplicationRepository.findById(applicationId)
                 .orElseThrow(() -> new RuntimeException("Application not found"));
 
-        // Verify user owns this application
+
         if (!application.getFreelancer().getId().equals(currentUser.getId()) &&
                 !currentUser.getRole().equals(Role.ADMIN)) {
             throw new RuntimeException("You can only withdraw your own applications");
         }
 
-        // Can only withdraw pending or shortlisted applications
+
         if (application.getStatus() != ApplicationStatus.PENDING &&
                 application.getStatus() != ApplicationStatus.SHORTLISTED) {
             throw new RuntimeException("Cannot withdraw application with status: " + application.getStatus());
@@ -189,7 +189,7 @@ public class JobApplicationService {
         if (application.isPresent()) {
             JobApplication app = application.get();
 
-            // Check if user has permission to view this application
+
             boolean canView = app.getFreelancer().getId().equals(currentUser.getId()) || // Freelancer owns it
                     app.getJob().getClient().getId().equals(currentUser.getId()) || // Client owns the job
                     currentUser.getRole().equals(Role.ADMIN); // Admin can view all
@@ -225,17 +225,19 @@ public class JobApplicationService {
         response.setClientFeedback(application.getClientFeedback());
         response.setPortfolioLinks(application.getPortfolioLinks());
 
-        // Freelancer information
+
         response.setFreelancerId(application.getFreelancer().getId());
         response.setFreelancerName(application.getFreelancer().getFirstName() + " " +
                 application.getFreelancer().getLastName());
         response.setFreelancerEmail(application.getFreelancer().getEmail());
 
-        // Job information
+
         response.setClientName(application.getJob().getClient().getFirstName() + " " +
                 application.getJob().getClient().getLastName());
         response.setJobBudget(application.getJob().getBudget());
         response.setJobType(application.getJob().getJobType().name());
+        response.setJobDescription(application.getJob().getDescription());
+        response.setJobCreatedAt(application.getJob().getCreatedAt());
 
         return response;
     }
