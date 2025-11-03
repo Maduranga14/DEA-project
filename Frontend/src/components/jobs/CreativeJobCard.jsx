@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Clock,
@@ -9,12 +9,20 @@ import {
     Eye,
     Calendar,
     User,
-    Star
+    Star,
+    Send
 } from 'lucide-react';
+import { applicationService } from '../../services/applicationService';
+import { useAuth } from '../../contexts/AuthContext';
+import JobApplicationForm from '../applications/JobApplicationForm';
+import toast from 'react-hot-toast';
 
 const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
+    const [showApplicationForm, setShowApplicationForm] = useState(false);
+    const [applicationCount, setApplicationCount] = useState(0);
+    const { user } = useAuth();
 
     // Helper function to format budget display
     const formatBudget = (job) => {
@@ -32,6 +40,39 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
     // Helper function to format duration
     const formatDuration = (job) => {
         return job.estimatedDuration || job.duration || 'Not specified';
+    };
+    
+    // Load application count
+    useEffect(() => {
+        const loadApplicationCount = async () => {
+            try {
+                const response = await applicationService.getApplicationCount(job.id);
+                setApplicationCount(response.data);
+            } catch (error) {
+                console.error('Error loading application count:', error);
+            }
+        };
+
+        if (job.id) {
+            loadApplicationCount();
+        }
+    }, [job.id]);
+
+    const handleApply = () => {
+        if (!user) {
+            toast.error('Please login to apply for jobs');
+            return;
+        }
+        if (user.role !== 'FREELANCER') {
+            toast.error('Only freelancers can apply for jobs');
+            return;
+        }
+        setShowApplicationForm(true);
+    };
+
+    const handleApplicationSuccess = () => {
+        setApplicationCount(prev => prev + 1);
+        setShowApplicationForm(false);
     };
 
     const handleSaveJob = (e) => {
@@ -136,7 +177,7 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
                             <div className="flex items-center space-x-4 text-sm text-gray-600">
                                 <div className="flex items-center">
                                     <Eye className="w-4 h-4 mr-1" />
-                                    <span>{job.proposals || 0} proposals</span>
+                                    <span>{applicationCount} applications</span>
                                 </div>
 
                                 <AnimatePresence>
@@ -158,9 +199,11 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 0.95 }}
-                                                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-xl font-semibold text-sm hover:shadow-lg transition-all"
+                                                onClick={handleApply}
+                                                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-xl font-semibold text-sm hover:shadow-lg transition-all flex items-center space-x-2"
                                             >
-                                                Apply Now
+                                                <Send className="w-4 h-4" />
+                                                <span>Apply Now</span>
                                             </motion.button>
                                         </motion.div>
                                     )}
@@ -175,6 +218,7 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
 
 
     return (
+        <>
         <motion.div
             layout
             initial={{ opacity: 0, scale: 0.9 }}
@@ -283,9 +327,11 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold text-center shadow-lg hover:shadow-xl transition-all"
+                                        onClick={handleApply}
+                                        className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center space-x-2"
                                     >
-                                        Apply Now
+                                        <Send className="w-4 h-4" />
+                                        <span>Apply Now</span>
                                     </motion.button>
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
@@ -312,7 +358,7 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
                             >
                                 <div className="flex items-center">
                                     <Eye className="w-4 h-4 mr-1" />
-                                    {job.proposals || 0} proposals
+                                    {applicationCount} applications
                                 </div>
                                 <div>{job.createdAt ? new Date(job.createdAt).toLocaleDateString() : job.posted || 'Recently'}</div>
                             </motion.div>
@@ -321,6 +367,16 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
                 </div>
             </div>
         </motion.div>
+        
+        {/* Job Application Form Modal */}
+        {showApplicationForm && (
+            <JobApplicationForm
+                job={job}
+                onClose={() => setShowApplicationForm(false)}
+                onSuccess={handleApplicationSuccess}
+            />
+        )}
+    </>
     )
 }
 
