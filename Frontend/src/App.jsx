@@ -12,6 +12,8 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 import CreativeDashboard from './components/dashboard/CreativeDashboard';
 import { AuthProvider } from './contexts/AuthContext';
 import JobPost from './components/jobs/JobPost';
+import MyApplications from './components/applications/MyApplications';
+import ClientApplications from './components/applications/ClientApplications';
 
 
 const queryClient = new QueryClient();
@@ -66,6 +68,22 @@ function App() {
                 </div>
                 </ProtectedRoute>
               }/>
+              <Route 
+                path="/my-applications" 
+                element={
+                  <ProtectedRoute allowedRoles={['FREELANCER', 'ADMIN']}>
+                    <MyApplications />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/client-applications" 
+                element={
+                  <ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']}>
+                    <ClientApplications />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </div>
         </Router>

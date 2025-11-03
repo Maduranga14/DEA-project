@@ -186,6 +186,26 @@ const GlassNavbar = () => {
                                                 <span>Dashboard</span>
                                             </Link>
 
+                                            {user?.role === 'FREELANCER' && (
+                                                <Link 
+                                                    to="/my-applications" 
+                                                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
+                                                >
+                                                    <MessageCircle className="w-4 h-4" />
+                                                    <span>My Applications</span>
+                                                </Link>
+                                            )}
+                                            
+                                            {(user?.role === 'CLIENT' || user?.role === 'ADMIN') && (
+                                                <Link 
+                                                    to="/client-applications" 
+                                                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
+                                                >
+                                                    <MessageCircle className="w-4 h-4" />
+                                                    <span>Review Applications</span>
+                                                </Link>
+                                            )}
+
                                         <button
                                             onClick={handleLogout}
                                             className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg flex items-center space-x-2 transition-colors"
@@ -270,12 +290,27 @@ const GlassNavbar = () => {
                         <div className="pt-4 border-t border-gray-200 space-y-3">
                             {isAuthenticated ? (
                                 <>
+                                {user?.role === 'FREELANCER' && (
+                                        <Link to="/my-applications" onClick={() => setIsMobileMenuOpen(false)}>
+                                            <motion.button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700">
+                                                My Applications
+                                            </motion.button>
+                                        </Link>
+                                    )}
+                                    
                                 {(user?.role === 'CLIENT' || user?.role === 'ADMIN') && (
+                                    <>
                                         <Link to="/post-job" onClick={() => setIsMobileMenuOpen(false)}>
                                             <motion.button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl font-semibold">
                                                 Post a Job
                                             </motion.button>
                                         </Link>
+                                        <Link to="/client-applications" onClick={() => setIsMobileMenuOpen(false)}>
+                                                <motion.button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700">
+                                                    Review Applications
+                                                </motion.button>
+                                            </Link>
+                                        </>
                                 )}
                                     <motion.button
                                     onClick={handleLogout}
