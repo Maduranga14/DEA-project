@@ -4,7 +4,7 @@ import { Search, Filter, Grid, List, Plus } from 'lucide-react';
 import { jobService } from '../../services/jobService';
 import { sampleJobs } from '../../data/sampleData';
 import CreativeJobCard from './CreativeJobCard';
-//import InteractiveFilters from './InteractiveFilters';
+import JobSearchFilters from './JobSearchFilters';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -246,7 +246,18 @@ const JobList = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/*filters sidebar */}
                     <div className="lg:col-span-1">
-                        {/* <InteractiveFilters filters={filters} onFilterChange={setFilters} /> */}
+                        <JobSearchFilters 
+                            filters={filters} 
+                            onFilterChange={setFilters}
+                            onClearFilters={() => setFilters({
+                                skills: [],
+                                minBudget: '',
+                                maxBudget: '',
+                                jobType: '',
+                                experience: '',
+                                searchQuery: ''
+                            })}
+                        />
                     </div>
 
                     {/*job grid */}

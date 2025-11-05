@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Clock,
@@ -23,6 +24,7 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
     const [showApplicationForm, setShowApplicationForm] = useState(false);
     const [applicationCount, setApplicationCount] = useState(0);
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     // Helper function to format budget display
     const formatBudget = (job) => {
@@ -93,6 +95,10 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
         }
     };
 
+    const handleViewDetails = () => {
+        navigate(`/jobs/${job.id}`);
+    };
+
     if (viewMode === 'list') {
         return (
             <motion.div
@@ -102,6 +108,7 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
                 whileHover={{ y: -2 }}
                 onHoverStart={() => setIsHovered(true)}
                 onHoverEnd={() => setIsHovered(false)}
+                onClick={handleViewDetails}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
             >
                 <div className="p-6">
@@ -226,6 +233,7 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
             whileHover={{ y: -5 }}
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
+            onClick={handleViewDetails}
             className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer">
 
             <div className="relative">
@@ -336,6 +344,10 @@ const CreativeJobCard = ({ job, viewMode = 'grid' }) => {
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleViewDetails();
+                                        }}
                                         className="p-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
                                     >
                                         <Eye className="w-5 h-5" />
