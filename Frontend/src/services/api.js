@@ -19,15 +19,23 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('userRole');
-      sessionStorage.removeItem('userData');
-      localStorage.removeItem('token');
-      localStorage.removeItem('userRole');
-      localStorage.removeItem('userData');
-      localStorage.removeItem('rememberMe');
-      window.location.href = '/login';
+      // Check if this is a request that should trigger logout
+      const url = error.config?.url || '';
+      const publicEndpoints = ['/jobs', '/applications/job/', '/applications/count'];
+      
+      // Don't redirect for public endpoints or job-related endpoints
+      const isPublicEndpoint = publicEndpoints.some(endpoint => url.includes(endpoint));
+      
+      if (!isPublicEndpoint) {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('userRole');
+        sessionStorage.removeItem('userData');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('rememberMe');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

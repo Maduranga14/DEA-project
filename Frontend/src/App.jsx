@@ -12,6 +12,7 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 import CreativeDashboard from './components/dashboard/CreativeDashboard';
 import { AuthProvider } from './contexts/AuthContext';
 import JobPost from './components/jobs/JobPost';
+import JobDetailView from './components/jobs/JobDetailView';
 import MyApplications from './components/applications/MyApplications';
 import ClientApplications from './components/applications/ClientApplications';
 import ProfileManagement from './components/profile/ProfileManagement';
@@ -49,6 +50,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<HeroSection />} />
                             <Route path="/jobs" element={<JobList/>}/>
+                            <Route path="/jobs/:id" element={<JobDetailView />} />
                             <Route path="/Register" element={<Register />} />
                             <Route path="/login" element={<Login />} />
                             <Route path='/dashboard' element={

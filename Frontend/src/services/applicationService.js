@@ -46,5 +46,8 @@ export const applicationService = {
     api.patch(`/applications/${applicationId}/withdraw`),
 
   
-  getApplicationCount: (jobId) => api.get(`/applications/job/${jobId}/count`)
+  getApplicationCount: (jobId) => api.get(`/applications/job/${jobId}/count`),
+
+  // Check if current user has applied for a specific job
+  checkApplicationStatus: (jobId) => api.get(`/applications/status/${jobId}`)
 };
