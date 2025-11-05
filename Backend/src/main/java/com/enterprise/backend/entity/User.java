@@ -47,6 +47,33 @@ public class User implements UserDetails {
     @Column(name = "skill")
     private List<String> skills = new ArrayList<>();
 
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
+
+    @Column(name = "bio", length = 1000)
+    private String bio;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "hourly_rate")
+    private Double hourlyRate;
+
+    @Column(name = "experience_years")
+    private Integer experienceYears;
+
+    @Column(name = "portfolio_url")
+    private String portfolioUrl;
+
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
+
+    @Column(name = "github_url")
+    private String githubUrl;
+
     private boolean enabled = true;
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
@@ -177,5 +204,75 @@ public class User implements UserDetails {
     }
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Double getHourlyRate() {
+        return hourlyRate;
+    }
+    public void setHourlyRate(Double hourlyRate) {
+        this.hourlyRate = hourlyRate;
+    }
+
+    public Integer getExperienceYears() {
+        return experienceYears;
+    }
+    public void setExperienceYears(Integer experienceYears) {
+        this.experienceYears = experienceYears;
+    }
+
+    public String getPortfolioUrl() {
+        return portfolioUrl;
+    }
+    public void setPortfolioUrl(String portfolioUrl) {
+        this.portfolioUrl = portfolioUrl;
+    }
+
+    public String getLinkedinUrl() {
+        return linkedinUrl;
+    }
+    public void setLinkedinUrl(String linkedinUrl) {
+        this.linkedinUrl = linkedinUrl;
+    }
+
+    public String getGithubUrl() {
+        return githubUrl;
+    }
+    public void setGithubUrl(String githubUrl) {
+        this.githubUrl = githubUrl;
     }
 }

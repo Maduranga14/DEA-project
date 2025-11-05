@@ -38,7 +38,7 @@ public class AuthService {
 
         User user = (User) authentication.getPrincipal();
 
-        return new AuthResponse(jwt, user.getUsername(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole().name());
+        return new AuthResponse(jwt, user.getUsername(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole().name(), user.getProfilePictureUrl());
     }
 
     public String registerUser(RegisterRequest signUpRequest) {

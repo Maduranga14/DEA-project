@@ -68,6 +68,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/jobs", "/jobs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/jobs/paginated", "/jobs/search").permitAll()
                         .requestMatchers(HttpMethod.GET, "/applications/job/*/count").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/profile/picture/**").permitAll()
                         .anyRequest().authenticated()
                 );
         http.authenticationProvider(authenticationProvider());
