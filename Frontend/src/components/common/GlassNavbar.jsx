@@ -213,23 +213,42 @@ const GlassNavbar = () => {
                                                 </Link>
 
                                                 {user?.role === 'FREELANCER' && (
-                                                    <Link
-                                                        to="/my-applications"
-                                                        className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
-                                                    >
-                                                        <MessageCircle className="w-4 h-4" />
-                                                        <span>My Applications</span>
-                                                    </Link>
+                                                    <>
+                                                        <Link
+                                                            to="/my-applications"
+                                                            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
+                                                        >
+                                                            <MessageCircle className="w-4 h-4" />
+                                                            <span>My Applications</span>
+                                                        </Link>
+
+                                                        <Link
+                                                            to="/my-submissions"
+                                                            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
+                                                        >
+                                                            <MessageCircle className="w-4 h-4" />
+                                                            <span>My Submissions</span>
+                                                        </Link>
+                                                    </>
                                                 )}
 
                                                 {(user?.role === 'CLIENT' || user?.role === 'ADMIN') && (
-                                                    <Link
-                                                        to="/client-applications"
-                                                        className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
-                                                    >
-                                                        <MessageCircle className="w-4 h-4" />
-                                                        <span>Review Applications</span>
-                                                    </Link>
+                                                    <>
+                                                        <Link
+                                                            to="/client-applications"
+                                                            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
+                                                        >
+                                                            <MessageCircle className="w-4 h-4" />
+                                                            <span>Review Applications</span>
+                                                        </Link>
+                                                        <Link
+                                                            to="/client-submissions"
+                                                            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-2 transition-colors"
+                                                        >
+                                                            <MessageCircle className="w-4 h-4" />
+                                                            <span>Review Submissions</span>
+                                                        </Link>
+                                                    </>
                                                 )}
 
                                                 <button
@@ -322,11 +341,19 @@ const GlassNavbar = () => {
                                             </motion.button>
                                         </Link>
                                         {user?.role === 'FREELANCER' && (
-                                            <Link to="/my-applications" onClick={() => setIsMobileMenuOpen(false)}>
-                                                <motion.button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700">
-                                                    My Applications
-                                                </motion.button>
-                                            </Link>
+                                            <>
+                                                <Link to="/my-applications" onClick={() => setIsMobileMenuOpen(false)}>
+                                                    <motion.button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700">
+                                                        My Applications
+                                                    </motion.button>
+                                                </Link>
+
+                                                <Link to="/my-submissions" onClick={() => setIsMobileMenuOpen(false)}>
+                                                    <motion.button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700">
+                                                        My Submissions
+                                                    </motion.button>
+                                                </Link>
+                                            </>
                                         )}
 
                                         {(user?.role === 'CLIENT' || user?.role === 'ADMIN') && (
@@ -339,6 +366,11 @@ const GlassNavbar = () => {
                                                 <Link to="/client-applications" onClick={() => setIsMobileMenuOpen(false)}>
                                                     <motion.button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700">
                                                         Review Applications
+                                                    </motion.button>
+                                                </Link>
+                                                <Link to="/client-submissions" onClick={() => setIsMobileMenuOpen(false)}>
+                                                    <motion.button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700">
+                                                        Review Submissions
                                                     </motion.button>
                                                 </Link>
                                             </>

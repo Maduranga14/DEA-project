@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, 
   DollarSign, 
@@ -8,16 +8,24 @@ import {
   XCircle, 
   AlertCircle,
   Eye,
-  Trash2
+  Trash2,
+  Upload,
+  X
 } from 'lucide-react';
 import { applicationService } from '../../services/applicationService';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [selectedApplication, setSelectedApplication] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   useEffect(() => {
     loadApplications();
@@ -44,11 +52,65 @@ const MyApplications = () => {
     try {
       await applicationService.withdrawApplication(applicationId);
       toast.success('Application withdrawn successfully');
-      loadApplications(); // Reload applications
+      loadApplications();
     } catch (error) {
       console.error('Error withdrawing application:', error);
       toast.error(error.response?.data || 'Failed to withdraw application');
     }
+  };
+
+  const handleSubmitWork = (application) => {
+    setSelectedApplication(application);
+    setShowSubmitModal(true);
+    
+    setTimeout(() => {
+      reset({
+        workTitle: `Completed work for: ${application.jobTitle}`,
+        description: '',
+        fileUrl: ''
+      });
+    }, 100);
+  };
+
+  const onSubmitWork = async (data) => {
+    setIsSubmitting(true);
+    try {
+      const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+      
+      if (!token) {
+        toast.error('No authentication token found. Please login again.');
+        return;
+      }
+
+      const submissionData = {
+        clientId: selectedApplication.clientId?.toString(),
+        projectId: selectedApplication.jobId.toString(),
+        workTitle: data.workTitle,
+        fileUrl: data.fileUrl,
+        description: data.description
+      };
+
+
+
+      await axios.post('/api/submissions/submit', submissionData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      toast.success(`Work submitted successfully for "${selectedApplication.jobTitle}"!`);
+      reset();
+      setShowSubmitModal(false);
+      setSelectedApplication(null);
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to submit work');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const closeModal = () => {
+    setShowSubmitModal(false);
+    setSelectedApplication(null);
+    reset();
   };
 
   const getStatusIcon = (status) => {
@@ -162,21 +224,21 @@ const MyApplications = () => {
                         </div>
                       </div>
 
-                      {/* Status Badge */}
+                      
                       <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(application.status)}`}>
                         {getStatusIcon(application.status)}
                         <span>{application.status.replace('_', ' ')}</span>
                       </div>
                     </div>
 
-                    {/* Cover Letter Preview */}
+                    
                     <div className="mb-4">
                       <p className="text-gray-700 line-clamp-2">
                         {application.coverLetter}
                       </p>
                     </div>
 
-                    {/* Client Feedback */}
+                    
                     {application.clientFeedback && (
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
                         <h4 className="font-medium text-blue-900 mb-2">Client Feedback:</h4>
@@ -185,7 +247,7 @@ const MyApplications = () => {
                     )}
                   </div>
 
-                  {/* Right Side - Actions */}
+                  
                   <div className="lg:ml-6 lg:min-w-[200px]">
                     <div className="text-right mb-4">
                       <div className="text-lg font-bold text-green-600">
@@ -196,8 +258,19 @@ const MyApplications = () => {
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
+                    
                     <div className="flex flex-col space-y-2">
+                      
+                      {application.status === 'ACCEPTED' && (
+                        <button
+                          onClick={() => handleSubmitWork(application)}
+                          className="bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <Upload className="w-4 h-4" />
+                          <span>Submit Work</span>
+                        </button>
+                      )}
+
                       {(application.status === 'PENDING' || application.status === 'SHORTLISTED') && (
                         <button
                           onClick={() => handleWithdraw(application.id)}
@@ -221,6 +294,119 @@ const MyApplications = () => {
             ))}
           </div>
         )}
+
+        
+        <AnimatePresence>
+          {showSubmitModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+              onClick={closeModal}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">Submit Completed Work</h2>
+                  <button
+                    onClick={closeModal}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {selectedApplication && (
+                  <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <h3 className="font-semibold text-blue-900 mb-2">Submitting work for:</h3>
+                    <h4 className="font-semibold text-gray-800">{selectedApplication.jobTitle}</h4>
+                    <div className="text-sm text-gray-600 mt-2 space-y-1">
+                      <p><span className="font-medium">Client:</span> {selectedApplication.clientName}</p>
+                      <p><span className="font-medium">Job ID:</span> {selectedApplication.jobId}</p>
+                      <p><span className="font-medium">Your Proposed Rate:</span> ${selectedApplication.proposedRate}</p>
+                    </div>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit(onSubmitWork)} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Work Title
+                    </label>
+                    <input
+                      type="text"
+                      {...register('workTitle', { required: 'Work title is required' })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Enter work title"
+                    />
+                    {errors.workTitle && (
+                      <p className="text-red-500 text-sm mt-1">{errors.workTitle.message}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      File URL
+                    </label>
+                    <input
+                      type="url"
+                      {...register('fileUrl', { 
+                        required: 'File URL is required',
+                        pattern: {
+                          value: /^https?:\/\/.*/,
+                          message: 'Must be a valid URL starting with http:// or https://'
+                        }
+                      })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://drive.google.com/... or https://dropbox.com/..."
+                    />
+                    {errors.fileUrl && (
+                      <p className="text-red-500 text-sm mt-1">{errors.fileUrl.message}</p>
+                    )}
+                    <p className="text-sm text-gray-500 mt-1">
+                      Upload your files to Google Drive, Dropbox, or any cloud storage and paste the shareable link here
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Description (Optional)
+                    </label>
+                    <textarea
+                      {...register('description')}
+                      rows={4}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Add any notes or description about your work..."
+                    />
+                  </div>
+
+                  <div className="flex space-x-3 pt-4">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit Work'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
