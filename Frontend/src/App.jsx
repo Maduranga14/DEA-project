@@ -17,6 +17,8 @@ import MyApplications from './components/applications/MyApplications';
 import ClientApplications from './components/applications/ClientApplications';
 import ProfileManagement from './components/profile/ProfileManagement';
 
+import SubmissionsList from './components/submissions/SubmissionsList';
+
 
 const queryClient = new QueryClient();
 
@@ -92,6 +94,27 @@ function App() {
                                 element={
                                     <ProtectedRoute>
                                         <ProfileManagement />
+                                    </ProtectedRoute>
+                                }
+                            />
+
+                            <Route
+                                path="/my-submissions"
+                                element={
+                                    <ProtectedRoute allowedRoles={['FREELANCER', 'ADMIN']}>
+                                        <div className="min-h-screen pt-20 px-4">
+                                            <SubmissionsList userType="freelancer" />
+                                        </div>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/client-submissions"
+                                element={
+                                    <ProtectedRoute allowedRoles={['CLIENT', 'ADMIN']}>
+                                        <div className="min-h-screen pt-20 px-4">
+                                            <SubmissionsList userType="client" />
+                                        </div>
                                     </ProtectedRoute>
                                 }
                             />

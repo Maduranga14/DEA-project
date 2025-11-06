@@ -24,6 +24,7 @@ public class JobApplicationResponse {
     private String freelancerEmail;
 
 
+    private Long clientId;
     private String clientName;
     private BigDecimal jobBudget;
     private String jobType;
@@ -144,6 +145,14 @@ public class JobApplicationResponse {
 
     public void setFreelancerEmail(String freelancerEmail) {
         this.freelancerEmail = freelancerEmail;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
     public String getClientName() {

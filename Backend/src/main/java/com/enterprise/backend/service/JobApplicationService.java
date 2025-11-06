@@ -232,6 +232,7 @@ public class JobApplicationService {
         response.setFreelancerEmail(application.getFreelancer().getEmail());
 
 
+        response.setClientId(application.getJob().getClient().getId());
         response.setClientName(application.getJob().getClient().getFirstName() + " " +
                 application.getJob().getClient().getLastName());
         response.setJobBudget(application.getJob().getBudget());
