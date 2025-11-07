@@ -105,9 +105,13 @@ export const AuthProvider = ({ children }) => {
             const response = await authService.register(userData);
             return { success: true, data: response.data };
         } catch (error) {
+            
+            const errorMessage = error.response?.data?.message || 
+                                error.response?.data || 
+                                'Registration failed';
             return {
                 success: false,
-                error: error.response?.data?.message || 'Registration failed'
+                error: errorMessage
             };
         }
     };
@@ -117,11 +121,11 @@ export const AuthProvider = ({ children }) => {
             const updatedUser = { ...user, ...updatedUserData };
             setUser(updatedUser);
 
-            // Update session storage with new user data
+            
             const { token, role, ...userData } = updatedUser;
             sessionStorage.setItem('userData', JSON.stringify(userData));
 
-            // Update localStorage if remember me was enabled
+            
             const rememberMe = localStorage.getItem('rememberMe') === 'true';
             if (rememberMe) {
                 localStorage.setItem('userData', JSON.stringify(userData));

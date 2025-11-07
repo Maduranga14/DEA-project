@@ -222,7 +222,7 @@ const JobPost = () => {
                                             type="text"
                                             {...register('title', { required: 'Job title is required' })}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-lg"
-                                            placeholder="e.g., Senior React Developer needed for SaaS platform"
+                                            placeholder="e.g., Senior React Developer needed"
                                         />
                                         {errors.title && (
                                             <p className="text-red-500 text-sm mt-2">{errors.title.message}</p>

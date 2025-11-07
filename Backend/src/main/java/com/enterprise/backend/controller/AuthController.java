@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
@@ -30,10 +33,13 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest signUpRequest) {
         String result = authService.registerUser(signUpRequest);
 
-        if (result.startsWith("Error")) {
-            return ResponseEntity.badRequest().body(result);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", result);
+
+        if (result.equals("Username already exists") || result.equals("Email already exists")) {
+            return ResponseEntity.badRequest().body(response);
         }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(response);
     }
 }
