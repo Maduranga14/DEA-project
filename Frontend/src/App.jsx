@@ -10,6 +10,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import CreativeDashboard from './components/dashboard/CreativeDashboard';
+import EnhancedDashboard from './components/dashboard/EnhancedDashboard';
 import { AuthProvider } from './contexts/AuthContext';
 import JobPost from './components/jobs/JobPost';
 import JobDetailView from './components/jobs/JobDetailView';
@@ -57,7 +58,7 @@ function App() {
                             <Route path="/login" element={<Login />} />
                             <Route path='/dashboard' element={
                                 <ProtectedRoute>
-                                    <CreativeDashboard />
+                                    <EnhancedDashboard />
                                 </ProtectedRoute>
                             }
                             />
