@@ -12,7 +12,9 @@ import {
   Briefcase, 
   Check,
   ArrowRight,
-  ArrowLeft
+  ArrowLeft,
+  AlertCircle,
+  X
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -43,6 +45,7 @@ const Register = () => {
 
     const [loading, setLoading] = useState(false);
     const [selectedSkills, setSelectedSkills] = useState([]);
+    const [error, setError] = useState('');
 
     const { register } = useAuth();
     const navigate = useNavigate();
@@ -175,6 +178,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setError('');
 
         const registrationData = {
             username: formData.username,
@@ -201,7 +205,12 @@ const Register = () => {
             toast.success(`Welcome! Your ${userType} account has been created.`);
             navigate('/login');
         } else {
+            setError(result.error);
             toast.error(result.error);
+            // If email already exists, go back to step 1
+            if (result.error.toLowerCase().includes('email')) {
+                setStep(1);
+            }
         }
         
         setLoading(false);
@@ -294,6 +303,24 @@ const Register = () => {
                                 </div>
 
                                 <StepIndicator />
+
+                                {error && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className="mb-6 bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-start space-x-3">
+                                            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                                            <div className="flex-1">
+                                                <p className="text-red-800 font-medium">{error}</p>
+                                            </div>
+                                            <button
+                                                onClick={() => setError('')}
+                                                className="text-red-400 hover:text-red-600 transition-colors">
+                                                <X className="w-5 h-5" />
+                                            </button>
+                                    </motion.div>
+                                )}
 
                                 <AnimatePresence mode="wait">
                                     {step === 1 && (

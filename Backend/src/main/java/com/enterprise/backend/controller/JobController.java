@@ -23,7 +23,7 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
-    // Create a new job (only clients can create jobs)
+
     @PostMapping
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> createJob(@Valid @RequestBody JobCreateRequest request) {
@@ -35,14 +35,14 @@ public class JobController {
         }
     }
 
-    // Get all open jobs (public access)
+
     @GetMapping
     public ResponseEntity<List<JobResponse>> getAllJobs() {
         List<JobResponse> jobs = jobService.getAllJobs();
         return ResponseEntity.ok(jobs);
     }
 
-    // Get jobs with pagination
+
     @GetMapping("/paginated")
     public ResponseEntity<Page<JobResponse>> getJobsPaginated(
             @RequestParam(defaultValue = "0") int page,
@@ -63,7 +63,7 @@ public class JobController {
         }
     }
 
-    // Get jobs posted by current client
+
     @GetMapping("/my-jobs")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<List<JobResponse>> getMyJobs() {
@@ -71,7 +71,7 @@ public class JobController {
         return ResponseEntity.ok(jobs);
     }
 
-    // Get jobs assigned to current freelancer
+
     @GetMapping("/my-assignments")
     @PreAuthorize("hasRole('FREELANCER') or hasRole('ADMIN')")
     public ResponseEntity<List<JobResponse>> getMyAssignments() {
@@ -79,7 +79,7 @@ public class JobController {
         return ResponseEntity.ok(jobs);
     }
 
-    // Update a job (only job owner can update)
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> updateJob(@PathVariable Long id,
@@ -92,7 +92,7 @@ public class JobController {
         }
     }
 
-    // Delete a job (only job owner can delete)
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteJob(@PathVariable Long id) {
@@ -104,7 +104,7 @@ public class JobController {
         }
     }
 
-    // Update job status
+
     @PatchMapping("/{id}/status")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> updateJobStatus(@PathVariable Long id,
@@ -117,7 +117,7 @@ public class JobController {
         }
     }
 
-    // Search jobs
+    
     @GetMapping("/search")
     public ResponseEntity<Page<JobResponse>> searchJobs(
             @RequestParam String keyword,
@@ -127,11 +127,11 @@ public class JobController {
         return ResponseEntity.ok(jobs);
     }
 
-    // Get job statistics (for admin/client dashboard)
+
     @GetMapping("/stats")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> getJobStats() {
-        // This can be expanded to return various statistics
+
         return ResponseEntity.ok("Job statistics endpoint - to be implemented");
     }
 }
