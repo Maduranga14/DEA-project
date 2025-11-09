@@ -179,4 +179,4 @@ MIT License
 
 ### 🖥️ Little Preview For Frontend
 
-https://raw.githubusercontent.com/Maduranga14/DEA-project/c55769f68046ea060c1d8127265d3cb9730ecb65/SS/Web-Preview.png
+![image](https://raw.githubusercontent.com/Maduranga14/DEA-project/c55769f68046ea060c1d8127265d3cb9730ecb65/SS/Web-Preview.png)
