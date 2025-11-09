@@ -36,7 +36,7 @@ cd DEA-project
 Make sure MySQL is running and check if the database has been created:
 
 ```sql
-CREATE DATABASE Freelance_db;
+Freelance_db;
 ```
 
 **That's it!** Tables will be created automatically when you run the app.
