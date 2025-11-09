@@ -1,350 +1,182 @@
-# DEA Enterprise Platform
+# DEA Enterprise Platform 🚀
 
-A full-stack web application for freelance job management and collaboration, built with Spring Boot and React.
+> A simple freelance job platform where clients post jobs and freelancers apply.
 
-## 🏗️ Project Overview
+## What Does It Do? 
 
-This platform enables clients to post jobs, freelancers to apply for opportunities, and facilitates file submissions and project management. The application features role-based access control, real-time dashboards, and comprehensive job application workflows.
+✅ Clients can post jobs  
+✅ Freelancers can apply for jobs  
+✅ Upload and submit work files  
+✅ Track everything with dashboards
 
-## 🛠️ Tech Stack
+## Built With
 
-### Backend
-- **Framework**: Spring Boot 3.5.7
-- **Language**: Java 21
-- **Database**: MySQL 8
-- **Security**: Spring Security + JWT Authentication
-- **ORM**: Spring Data JPA (Hibernate)
-- **API Documentation**: SpringDoc OpenAPI 3
-- **Build Tool**: Maven
+**Backend:** Spring Boot + Java + MySQL  
+**Frontend:** React + Tailwind CSS
 
-### Frontend
-- **Framework**: React 18.2.0
-- **Build Tool**: Vite 7.1.12
-- **Routing**: React Router DOM 6.8.0
-- **HTTP Client**: Axios 1.3.0
-- **UI Styling**: Tailwind CSS 3.3.0
-- **Animations**: Framer Motion 10.0.0
-- **State Management**: React Query 3.39.0
-- **Forms**: React Hook Form 7.43.0
-- **Notifications**: React Hot Toast 2.4.1
-- **Icons**: Lucide React 0.263.0
+## What You Need First
 
-## ✨ Features
+Make sure you have these installed:
 
-### User Management
-- User registration and authentication (JWT-based)
-- Role-based access control (Admin, Client, Creative)
-- Profile management with avatar upload
-- Social media links integration
+1. **Java** (version 17 or newer) - [Download here](https://www.oracle.com/java/technologies/downloads/)
+2. **Node.js** (version 18 or newer) - [Download here](https://nodejs.org/)
+3. **Git** - [Download here](https://git-scm.com/)
 
-### Job Management
-- Post and manage job listings
-- Job search and filtering
-- Job status tracking (Open, In Progress, Completed, Cancelled)
-- Job type categorization (Full-time, Part-time, Contract, Freelance)
-- Experience level filtering (Entry, Intermediate, Expert)
+## 🚀 How to Run (Step by Step)
 
-### Application System
-- Apply for jobs with custom messages
-- Track application status (Pending, Reviewed, Accepted, Rejected)
-- View application history
-- Client-side application management
-
-### File Submission
-- Upload work submissions for jobs
-- Track submission status (Pending, Under Review, Approved, Rejected, Revision Requested)
-- File storage and retrieval
-- Submission history tracking
-
-### Analytics Dashboard
-- Admin dashboard with system-wide analytics
-- Client dashboard for managing posted jobs
-- Creative dashboard for tracking applications
-- Real-time statistics and metrics
-
-## 📦 Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Java Development Kit (JDK)**: Version 17 or higher
-- **Node.js**: Version 18 or higher
-- **MySQL**: Version 8.0 or higher
-- **Maven**: Version 3.6+ (or use included Maven wrapper)
-- **Git**: For version control
-
-## 🚀 Installation
-
-### 1. Clone the Repository
+### Step 1: Download the Project
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Maduranga14/DEA-project.git
 cd DEA-project
 ```
 
-### 2. Database Setup
+### Step 2: Setup Database
 
-Create a MySQL database:
+Make sure MySQL is running and check if the database has been created:
 
 ```sql
 CREATE DATABASE Freelance_db;
 ```
 
-**Note**: The application will automatically create tables on first run using Hibernate auto-DDL.
+**That's it!** Tables will be created automatically when you run the app.
 
-### 3. Backend Setup
+### Step 3: Start Backend
 
-Navigate to the Backend directory:
+**Option A: Using IntelliJ IDEA** (Recommended)
 
-```bash
-cd Backend
-```
+1. Open IntelliJ IDEA
+2. Click **File** → **Open**
+3. Navigate to and select the `Backend` folder
+4. Wait for IntelliJ to load the project
+5. Find `BackendApplication.java` in the project explorer
+6. Right-click on it and select **Run 'BackendApplication'**
+7. Wait until you see: `Started BackendApplication` ✅
 
-Install dependencies (Maven will automatically download them):
+**Option B: Using Terminal/Command Line**
 
-```bash
-./mvnw clean install
-```
-
-### 4. Frontend Setup
-
-Navigate to the Frontend directory:
-
-```bash
-cd ../Frontend
-npm install
-```
-
-## ⚙️ Configuration
-
-### Backend Configuration
-
-Edit `Backend/src/main/resources/application.properties`:
-
-```properties
-# Server Configuration
-server.port=8080
-server.servlet.context-path=/api
-
-# Database Configuration
-spring.datasource.url=jdbc:mysql://localhost:3306/Freelance_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-spring.datasource.username=root
-spring.datasource.password=YOUR_MYSQL_PASSWORD
-
-# JWT Configuration
-jwt.secret=YOUR_SECRET_KEY_HERE
-jwt.expiration=86400000
-
-# File Upload Configuration
-spring.servlet.multipart.max-file-size=5MB
-spring.servlet.multipart.max-request-size=5MB
-app.upload.dir=uploads
-
-# CORS Configuration
-cors.allowed-origins=http://localhost:5173
-```
-
-### Frontend Configuration
-
-The frontend is configured to connect to the backend at `http://localhost:8080/api`.
-
-If you need to change the API URL, update `Frontend/src/services/api.js`:
-
-```javascript
-const API_BASE_URL = 'http://localhost:8080/api';
-```
-
-## 🏃 Running the Application
-
-### Start the Backend
-
-From the `Backend` directory:
+Open a terminal in the `Backend` folder:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-The backend server will start on `http://localhost:8080`.
+**Windows users:** Use `mvnw.cmd spring-boot:run` instead.
 
-### Start the Frontend
+Wait until you see: `Started BackendApplication` ✅
 
-From the `Frontend` directory:
+### Step 4: Start Frontend
+
+Open **another terminal** in the `Frontend` folder:
 
 ```bash
+npm install
 npm run dev
 ```
 
-The frontend development server will start on `http://localhost:5173`.
+Wait until you see: `Local: http://localhost:3000` ✅
 
-### Access the Application
+## 🎉 Open Your Browser
 
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8080/api
-- **Swagger UI**: http://localhost:8080/api/swagger-ui.html
-- **API Docs**: http://localhost:8080/api/api-docs
+Go to: **http://localhost:3000**
 
-## 📚 API Documentation
+You should see the login page! 🎊
 
-The backend provides interactive API documentation through Swagger UI:
+## 📱 Using the Platform
 
-- **Swagger UI**: http://localhost:8080/api/swagger-ui.html
-- **OpenAPI JSON**: http://localhost:8080/api/api-docs
+### Create Your Account
 
-### Main API Endpoints
+1. Click **"Register"**
+2. Choose your role:
+   - **Client** - if you want to post jobs
+   - **Freelancer** - if you want to apply for jobs
+3. Fill in your details and sign up!
 
-#### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - User login
+### For Clients
 
-#### Profile Management
-- `GET /api/profile` - Get current user profile
-- `PUT /api/profile` - Update user profile
-- `POST /api/profile/avatar` - Upload profile avatar
+1. **Post a Job** - Click "Post Job" and fill in details
+2. **View Applications** - See who applied
+3. **Accept/Reject** - Choose the best freelancer
+4. **Review Work** - Check submitted files
 
-#### Job Management
-- `GET /api/jobs` - List all jobs
-- `POST /api/jobs` - Create new job (Client only)
-- `GET /api/jobs/{id}` - Get job details
-- `PUT /api/jobs/{id}` - Update job (Client only)
-- `DELETE /api/jobs/{id}` - Delete job (Client only)
+### For Freelancers
 
-#### Job Applications
-- `POST /api/applications` - Apply for a job
-- `GET /api/applications/my` - Get user's applications
-- `GET /api/applications/job/{jobId}` - Get applications for a job
-- `PUT /api/applications/{id}/status` - Update application status
+1. **Browse Jobs** - See all available jobs
+2. **Apply** - Click "Apply" on jobs you like
+3. **Track Status** - See if you're accepted
+4. **Submit Work** - Upload your completed work
 
-#### File Submissions
-- `POST /api/submissions` - Submit work for a job
-- `GET /api/submissions/job/{jobId}` - Get submissions for a job
-- `PUT /api/submissions/{id}/status` - Update submission status
+## 🔗 Important Links
 
-## 📁 Project Structure
+- **Website:** http://localhost:5173
+- **API Documentation:** http://localhost:8080/api/swagger-ui.html
+- **Backend API:** http://localhost:8080/api
+
+## 📁 Folder Structure
 
 ```
-DEA-project1/
-├── Backend/
-│   ├── src/main/java/com/enterprise/backend/
-│   │   ├── config/           # Security and CORS configuration
-│   │   ├── controller/       # REST API controllers
-│   │   ├── dto/              # Data Transfer Objects
-│   │   ├── entity/           # JPA entities
-│   │   ├── repository/       # Data access layer
-│   │   ├── security/         # JWT and authentication
-│   │   ├── service/          # Business logic layer
-│   │   └── BackendApplication.java
-│   ├── src/main/resources/
-│   │   └── application.properties
-│   └── pom.xml
+DEA-project/
+├── Backend/          # Java Spring Boot code
+│   └── src/
+│       └── main/
+│           ├── java/             # Java code here
+│           └── resources/
+│               └── application.properties  # ⚙️ Database config
 │
-├── Frontend/
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   │   ├── applications/ # Job application components
-│   │   │   ├── auth/         # Login/Register components
-│   │   │   ├── common/       # Shared components
-│   │   │   ├── dashboard/    # Dashboard components
-│   │   │   ├── jobs/         # Job-related components
-│   │   │   ├── layout/       # Layout components
-│   │   │   ├── profile/      # Profile components
-│   │   │   └── submissions/  # File submission components
-│   │   ├── contexts/         # React context providers
-│   │   ├── hooks/            # Custom React hooks
-│   │   ├── services/         # API service layer
-│   │   ├── styles/           # Global styles
-│   │   ├── App.jsx           # Main application component
-│   │   └── main.jsx          # Application entry point
-│   ├── package.json
-│   └── vite.config.js
-│
-└── README.md
+└── Frontend/         # React code
+    ├── src/
+    │   ├── components/  # UI components
+    │   └── services/    # API calls
+    └── package.json     # Dependencies
 ```
 
-## 💡 Usage
+## ❓ Common Problems
 
-### Default Users
+### "Can't connect to database"
+- ✅ Make sure MySQL is running
+- ✅ Check your password in `application.properties`
+- ✅ Make sure database `Freelance_db` exists
 
-The application initializes with default users (configured in `DataInitializer.java`):
+### "Port already in use"
+- ✅ Another app is using port 8080 or 5173
+- ✅ Close other apps or change ports in config files
 
-1. **Client User**
-   - Email: You Can Use Any E-mail
-   - Password: You Can Use Any Password
-   - Role: CLIENT
+### "Frontend can't connect to backend"
+- ✅ Make sure backend is running (check terminal)
+- ✅ Backend should show "Started BackendApplication"
 
-2. **Freelancer**
-   - Email: You Can Use Any E-mail
-   - Password: You Can Use Any Password
-   - Role: Freelancer
+### "npm install fails"
+- ✅ Delete `node_modules` folder
+- ✅ Run `npm install` again
 
-### User Workflows
+## 🆘 Still Need Help?
 
-#### As a Client
-1. Register/Login as a client
-2. Post new job listings
-3. Manage your posted jobs
-4. Review applications from creatives
-5. Accept/reject applications
-6. Review submitted work
+Check the terminal output - it usually tells you what's wrong!
 
-#### As a Freelancer
-1. Register/Login as a freelancer
-2. Browse available jobs
-3. Filter jobs by type and experience level
-4. Apply for jobs
-5. Track application status
-6. Submit completed work
+## 🎓 For Developers
 
+### API Documentation
+Once running, visit: http://localhost:8080/api/swagger-ui.html  
+You can test all API endpoints here!
 
-### Building for Production
+### Production Build
 
-#### Backend
+**Backend:**
 ```bash
 cd Backend
 ./mvnw clean package
-java -jar target/Backend-0.0.1-SNAPSHOT.jar
 ```
 
-#### Frontend
+**Frontend:**
 ```bash
 cd Frontend
 npm run build
 ```
 
-The production build will be created in the `Frontend/dist` directory.
-
-## 🔒 Security
-
-- JWT-based authentication
-- Password encryption using BCrypt
-- Role-based access control (RBAC)
-- CORS protection
-- SQL injection prevention through JPA
-- File upload validation and size limits
-
-## 🐛 Troubleshooting
-
-### Backend Issues
-
-**Database Connection Error**
-- Verify MySQL is running
-- Check database credentials in `application.properties`
-- Ensure the database `Freelance_db` exists
-
-**Port Already in Use**
-- Change the port in `application.properties`: `server.port=8081`
-
-### Frontend Issues
-
-**Cannot Connect to Backend**
-- Ensure backend is running on port 8080
-- Check CORS configuration in backend
-- Verify API URL in `api.js`
-
-**Build Errors**
-- Clear node_modules: `rm -rf node_modules && npm install`
-- Clear npm cache: `npm cache clean --force`
-
 ## 📄 License
 
-This project is licensed under the MIT License.
+MIT License
 
+### 🖥️ Little Preview For Frontend
 
+https://raw.githubusercontent.com/Maduranga14/DEA-project/c55769f68046ea060c1d8127265d3cb9730ecb65/SS/Web-Preview.png
