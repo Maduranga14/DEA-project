@@ -117,7 +117,7 @@ public class JobController {
         }
     }
 
-    
+
     @GetMapping("/search")
     public ResponseEntity<Page<JobResponse>> searchJobs(
             @RequestParam String keyword,
