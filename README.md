@@ -108,7 +108,7 @@ You should see the login page! 🎊
 
 ## 🔗 Important Links
 
-- **Website:** http://localhost:5173
+- **Website:** http://localhost:3000
 - **API Documentation:** http://localhost:8080/api/swagger-ui.html
 - **Backend API:** http://localhost:8080/api
 
