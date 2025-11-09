@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
             const updatedUser = { ...user, ...updatedUserData };
             setUser(updatedUser);
 
-            
+           
             const { token, role, ...userData } = updatedUser;
             sessionStorage.setItem('userData', JSON.stringify(userData));
 
@@ -133,12 +133,23 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => {
-
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('userRole');
-        sessionStorage.removeItem('userData');
-        setUser(null);
+    const logout = async () => {
+        try {
+            
+            await authService.logout();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('userRole');
+            sessionStorage.removeItem('userData');
+            localStorage.removeItem('token');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userData');
+            localStorage.removeItem('rememberMe');
+            setUser(null);
+        }
     };
 
     const value = {

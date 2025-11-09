@@ -7,5 +7,11 @@ export const authService = {
   register: (userData) => 
     api.post(`/auth/register`, userData),
 
+  logout: () => 
+    api.post('/auth/logout'),
+
+  getSessionInfo: () => 
+    api.get('/auth/session-info'),
+
   getProfile: () => api.get('/auth/profile'),
 };
