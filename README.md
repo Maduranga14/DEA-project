@@ -6,19 +6,6 @@ A full-stack web application for freelance job management and collaboration, bui
 
 This platform enables clients to post jobs, freelancers to apply for opportunities, and facilitates file submissions and project management. The application features role-based access control, real-time dashboards, and comprehensive job application workflows.
 
-## 📋 Table of Contents
-
-- [Tech Stack](#tech-stack)
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Running the Application](#running-the-application)
-- [API Documentation](#api-documentation)
-- [Project Structure](#project-structure)
-- [Usage](#usage)
-- [License](#license)
-
 ## 🛠️ Tech Stack
 
 ### Backend
