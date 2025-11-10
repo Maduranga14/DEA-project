@@ -6,7 +6,7 @@
 
 ✅ Clients can post jobs  
 ✅ Freelancers can apply for jobs  
-✅ Upload and submit work files  
+✅ Upload  images and submit work URL 
 ✅ Track everything with dashboards
 
 ## Built With
